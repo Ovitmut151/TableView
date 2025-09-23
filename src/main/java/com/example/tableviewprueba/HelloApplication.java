@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -34,7 +35,6 @@ public class HelloApplication extends Application {
         TableView<Person> table = new TableView<>();
         table.setEditable(true);
 
-        // Columnas enlazadas correctamente con los getters
         TableColumn<Person, String> firstNameCol = new TableColumn<>("Nombre");
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 
@@ -44,7 +44,6 @@ public class HelloApplication extends Application {
         TableColumn<Person, String> emailCol = new TableColumn<>("Email");
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-        // Datos de ejemplo
         ObservableList<Person> data = FXCollections.observableArrayList(
                 new Person("Paco", "Fernandez", "PaquitoFdez@gmail.com"),
                 new Person("Isabel", "Musk", "isabeMus@gmail.com"),
@@ -56,11 +55,23 @@ public class HelloApplication extends Application {
         table.setItems(data);
         table.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
 
-        // Layout
-        VBox vbox = new VBox(table);
-        Scene scene = new Scene(vbox, 450, 300);
 
-        stage.setTitle("Lista Alumnos DAM");
+        Label mensaje = new Label("Haz clic en un alumno...");
+
+
+        table.setOnMouseClicked(event -> {
+            Person seleccionado = table.getSelectionModel().getSelectedItem();
+            if (seleccionado != null) {
+                mensaje.setText("Seleccionado: " + seleccionado.getNombre() + " "
+                        + seleccionado.getApellidos()
+                        + " (" + seleccionado.getEmail() + ")");
+            }
+        });
+
+        VBox vbox = new VBox(10, table, mensaje);
+        Scene scene = new Scene(vbox, 500, 350);
+
+        stage.setTitle("Lista Alumnos DAM con evento");
         stage.setScene(scene);
         stage.show();
     }
@@ -69,4 +80,3 @@ public class HelloApplication extends Application {
         launch(args);
     }
 }
-

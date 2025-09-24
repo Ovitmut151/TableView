@@ -16,17 +16,17 @@ public class HelloApplication extends Application {
     public static class Person {
         private final String nombre;
         private final String apellidos;
-        private final String email;
+        private final String gimail;
 
         public Person(String nombre, String apellidos, String email) {
             this.nombre = nombre;
             this.apellidos = apellidos;
-            this.email = email;
+            this.gimail = email;
         }
 
         public String getNombre() { return nombre; }
         public String getApellidos() { return apellidos; }
-        public String getEmail() { return email; }
+        public String getGimail() { return gimail; }
     }
 
     @Override
@@ -35,14 +35,14 @@ public class HelloApplication extends Application {
         TableView<Person> table = new TableView<>();
         table.setEditable(true);
 
-        TableColumn<Person, String> firstNameCol = new TableColumn<>("Nombre");
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        TableColumn<Person, String> nombre = new TableColumn<>("Nombre");
+        nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 
-        TableColumn<Person, String> lastNameCol = new TableColumn<>("Apellidos");
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
+        TableColumn<Person, String> apellidos = new TableColumn<>("Apellidos");
+        apellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
 
-        TableColumn<Person, String> emailCol = new TableColumn<>("Email");
-        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        TableColumn<Person, String> gimail = new TableColumn<>("Gimail");
+       gimail.setCellValueFactory(new PropertyValueFactory<>("gimail"));
 
         ObservableList<Person> data = FXCollections.observableArrayList(
                 new Person("Paco", "Fernandez", "PaquitoFdez@gmail.com"),
@@ -53,7 +53,7 @@ public class HelloApplication extends Application {
         );
 
         table.setItems(data);
-        table.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
+        table.getColumns().addAll(nombre, apellidos, gimail);
 
 
         Label mensaje = new Label("Haz clic en un alumno...");
@@ -64,9 +64,11 @@ public class HelloApplication extends Application {
             if (seleccionado != null) {
                 mensaje.setText("Seleccionado: " + seleccionado.getNombre() + " "
                         + seleccionado.getApellidos()
-                        + " (" + seleccionado.getEmail() + ")");
+                        + " (" + seleccionado.getGimail() + ")");
             }
         });
+
+
 
         VBox vbox = new VBox(10, table, mensaje);
         Scene scene = new Scene(vbox, 500, 350);
